@@ -1,0 +1,91 @@
+/* Most of the Css I have created for this project has been inspired by https://www.w3schools.com/css/default.asp as well as https://stackoverflow.com/tags/css/info*/
+
+body {
+    background-color: #f0e6b4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+  }
+  
+  .report-container {
+    background-color: white;
+    border: 4px solid black;
+    border-radius: 30px;
+    max-width: 800px;
+    margin: auto;
+    padding: 30px 40px;
+    box-sizing: border-box;
+  }
+  
+  .header h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .section {
+    margin-bottom: 25px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .scale-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .scale-group img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  input[type="range"] {
+    flex: 1;
+    height: 30px;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 3px solid black;
+    box-sizing: border-box;
+    border-radius: 10px;
+    resize: vertical;
+  }
+  
+  button {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+  }
+  
+  button:hover {
+    background-color: #333;
+  }
+  
+  .section.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .section.form-actions button {
+    display: inline-block;
+    margin: 0;
+  }
+  .home-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }

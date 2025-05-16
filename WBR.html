@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wellbeing Report</title>
+  <link rel="stylesheet" href="CSS/dashboard.css"/>
+  <link rel="stylesheet" href="CSS/wellbeing.css"/>
+</head>
+<body>
+  <div class="top-bar">
+
+    <div class="back-container" onclick="goBackToDashboard()">
+      <img src="images/Home.png" alt="Home" class="home-icon"/><!---Code stolen from BookMeeting.HTML.-->
+    </div>
+    <div class="user-menu-container">
+      <div class="profile-pic" onclick="toggleLogoutMenu()">
+        <img id="profileImage" src="" alt="Profile"/>
+      </div>
+      <div id="logoutMenu" class="logout-menu hidden">
+        <p>Log out?</p>
+        <button onclick="logout()">Click here</button>
+      </div>
+    </div>
+    <h2 id="welcomeText">Hi</h2>
+  </div>
+
+  <div class="report-container">
+    <div class="header">
+      <h2>Wellbeing Report</h2>
+    </div>
+
+    <div class="section">
+      <label for="q1">On a scale of 1 to 10, how do you feel you are progressing?</label>
+      <div class="scale-group">
+        <img id="icon-q1" src="images/midface.png" alt="Mood Icon"/>
+        <input type="range" id="q1" min="1" max="10" value="5"/>
+        <span id="val-q1">5</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <label for="q2">How are you feeling emotionally?</label>
+      <div class="scale-group">
+        <img id="icon-q2" src="images/midface.png" alt="Mood Icon"/>
+        <input type="range" id="q2" min="1" max="10" value="5"/>
+        <span id="val-q2">5</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <label for="q3">How difficult are you finding your modules?</label>
+      <div class="scale-group">
+        <img id="icon-q3" src="images/midface.png" alt="Mood Icon"/>
+        <input type="range" id="q3" min="1" max="10" value="5"/>
+        <span id="val-q3">5</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <label for="q4">How are you progressing with your current coursework?</label>
+      <div class="scale-group">
+        <img id="icon-q4" src="images/midface.png" alt="Mood Icon"/>
+        <input type="range" id="q4" min="1" max="10" value="5"/>
+        <span id="val-q4">5</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <label for="feeling-description">
+        Please fill this section with how you are feeling. Please try and expand on as much as possible, as the more information your personal supervisor has, the better.
+      </label>
+      <textarea
+        id="feeling-description"
+        rows="6"
+        placeholder="You don’t have to fill this out, but it helps your personal supervisor understand your mindset better."
+      ></textarea>
+    </div>
+
+    <div class="section">
+      <label for="additional-comments">Do you have anything else you would like to report?</label>
+      <textarea
+        id="additional-comments"
+        rows="4"
+        placeholder="Optional: Add anything else you feel is important to share."
+      ></textarea>
+    </div>
+
+    <div class="section form-actions">
+      <button onclick="cancelReport()">Cancel</button>
+      <button onclick="submitReport()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    const role = localStorage.getItem("userRole");
+    const welcomeText = document.getElementById("welcomeText");
+    const profileImage = document.getElementById("profileImage");
+    let displayName = "";
+    if (role === "Student") {
+      displayName = "Jessica Studentham";
+      profileImage.src = "images/JessImage.JPG";
+    } else if (role === "PersonalSupervisor") {
+      displayName = "Paul Persupen";
+      profileImage.src = "images/PaulImage.JPG";
+    } else {
+      displayName = "there";
+      profileImage.src = "";
+    }
+    welcomeText.textContent = `Hi ${displayName}`;
+
+    function toggleLogoutMenu() {
+      document.getElementById("logoutMenu").classList.toggle("hidden");
+    }
+    function logout() {
+      localStorage.removeItem("userRole");
+      window.location.href = "LoginPage.html";
+    }
+    window.addEventListener("click", e => {
+      if (!document.querySelector(".user-menu-container").contains(e.target)) {
+        document.getElementById("logoutMenu").classList.add("hidden");
+      }
+    });
+
+    function updateSlider(id) {
+      const slider = document.getElementById(id);
+      const valueDisplay = document.getElementById("val-" + id);
+      const icon = document.getElementById("icon-" + id);
+      slider.addEventListener("input", () => {
+        const value = parseInt(slider.value, 10);
+        valueDisplay.textContent = value;
+        if (value <= 3) {
+          icon.src = "images/frown.png";
+        } else if (value <= 6) {
+          icon.src = "images/midface.png";
+        } else {
+          icon.src = "images/smile.png";
+        }
+      });
+      slider.dispatchEvent(new Event("input"));
+    }
+    ["q1", "q2", "q3", "q4"].forEach(updateSlider);
+
+    function submitReport() {
+      alert("Thank you! Your report has been submitted.");
+      window.location.href = "dashboard.html";
+    }
+    function goBackToDashboard() {
+      window.location.href = 'dashboard.html';
+    }
+    function cancelReport() {
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>

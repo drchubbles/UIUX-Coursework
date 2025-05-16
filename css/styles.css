@@ -1,0 +1,279 @@
+/* Most of the Css I have created for this project has been inspired by https://www.w3schools.com/css/default.asp as well as https://stackoverflow.com/tags/css/info*/
+/*This code sets the background and creates teh layout for Login, Sign up and Index*/
+body {
+  background-color: #f0e6b4;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  background: #ede4b0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.image-circle {
+  width: 120px;
+  height: 120px;
+  background-color: white;
+  border: 4px solid black;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  top: -20px;
+  margin: 0 auto;
+  margin-bottom: -4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.image-circle img {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.login-box {
+  background-color: white;
+  border: 4px solid black;
+  padding: 80px 20px 30px;
+  text-align: center;
+}
+
+.login-box input {
+  display: block;
+  width: 80%;
+  margin: 15px auto;
+  padding: 10px;
+  border: 3px solid black;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.login-box button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background-color: #333;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.message button {
+  margin-left: 8px;
+  background-color: white;
+  color: blue;
+  border: 2px solid blue;
+  border-radius: 5px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.message button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.result {
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.signup-box {
+  background: white;
+  border: 4px solid black;
+  border-radius: 40px;
+  padding: 30px 20px 20px;
+  width: 500px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.signup-box .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.signup-box .row input[type="text"],
+.signup-box .row input[type="date"] {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: 3px solid black;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.signup-box input[type="email"],
+.signup-box input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 3px solid black;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  width: 120px;
+  text-align: center;
+}
+
+.file-upload label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.file-upload input[type="file"] {
+  display: block;
+  width: 100%;
+}
+.file-upload input[type="file"]::-webkit-file-upload-button {
+  display: block;
+  width: 100%;
+}
+.file-upload input[type="file"]::-moz-file-upload-button {
+  display: block;
+  width: 100%;
+}
+.file-upload input[type="file"]::-ms-browse {
+  display: block;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  min-width: 140px;
+}
+
+.btn.cancel,
+.btn.signup {
+  background: black;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #333;
+}
+
+.welcome-box {
+  background-color: white;
+  border: 4px solid black;
+  border-radius: 40px;
+  padding: 40px 30px;
+  max-width: 600px;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: -4px;
+  position: relative;
+  z-index: 0;
+}
+
+.welcome-box p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.welcome-box button {
+  margin-top: 30px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.welcome-box button:hover {
+  background-color: #333;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .image-circle {
+    width: 80px;
+    height: 80px;
+    top: -16px;
+  }
+
+  .image-circle img {
+    width: 70%;
+    height: 70%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .welcome-box {
+    width: 90%;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: -2px;
+  }
+
+  .welcome-box p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .welcome-box button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

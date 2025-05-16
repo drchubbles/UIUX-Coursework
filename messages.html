@@ -1,0 +1,371 @@
+<!-- This code was inspired by w3Schools, Particularly https://www.w3schools.com/html/default.asp, Jave script was inspired by https://www.w3schools.com/html/html_scripts.asp and https://www.w3schools.com/js/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Messages / Notifications</title>
+  <link rel="stylesheet" href="CSS/messages.css"/>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="back-container" onclick="goBackToDashboard()">
+      <img src="Images/Home.png" alt="Home" class="home-icon"/>
+    </div>
+    <div class="user-menu-container">
+      <div class="profile-pic" onclick="toggleLogoutMenu()">
+        <img id="profileImage" src="" alt="Profile"/>
+      </div>
+      <div id="logoutMenu" class="logout-menu hidden">
+        <div class="send-message" onclick="document.getElementById('chatBox').classList.toggle('hidden')">
+          send message
+        </div>
+        <div class="chat-box hidden" id="chatBox">
+          <div class="chat-header">
+            <img src="" alt="Profile" class="chat-profile-img" id="chatProfileImg"/>
+            <select id="chatUserSelect" class="chat-user-select">
+              <option value="" selected>Select Student</option>
+              <option value="Alex Acadamia">Alex Acadamia</option>
+              <option value="Jessica Studentham">Jessica Studentham</option>
+              <option value="Adam Courseworkshire">Adam Courseworkshire</option>
+            </select>
+            <span id="chatUserName" class="chat-user-name"></span>
+          </div>
+          <div class="chat-body">
+            <input id="chatSubject" type="text" placeholder="Subject..."/>
+            <textarea id="chatInput" placeholder="Type your message..."></textarea>
+            <button id="sendChatBtn">Send</button>
+          </div>
+        </div>
+        <p>Log out?</p>
+        <button onclick="logout()">Click here</button>
+      </div>
+    </div>
+    <h2 id="welcomeText">Hi there</h2>
+  </div>
+
+  <div class="messages-container">
+    <h2 id="pageTitle"></h2>
+  </div>
+
+  <script>
+
+    //All messages for students and ps here, in a real system they would be linked to a database
+    const studentMessages = [
+      {
+        icon: 'images/PaulImage.JPG',
+        subject: 'Most recent message',
+        preview: 'Hi Jess, I saw your most recent wellbeing check-in...',
+        full: "Hi Jess, I saw your most recent wellbeing check-in and I feel it would eb helpful to talk. I've booked a meeting with you for Friday at 10am. Let me know fi this works for you."
+      },
+      {
+        icon: 'images/clock.png',
+        subject: 'PS booked meeting',
+        preview: 'Hi Jess, this message is to inform you...',
+        fullHtml: `<p>Hi Jess, you rpersonal supervisor hsa booked a meeting with you at 10am. Please click accept or decline below ot respond to the invite.</p>
+          <div class="response-buttons">
+            <button onclick="respond(this, true); event.stopPropagation();">Accept</button>
+            <button onclick="respond(this, false); event.stopPropagation();">Decline</button>
+          </div>
+          <div class="response-result"></div>`
+      },
+      {
+        icon: 'images/PaulImage.JPG',
+        subject: 'Coursework Support',
+        preview: 'I noticed your recent coursework results and...',
+        full: "I noticed your recent coursework results and wanted to check in. If you're struggling, please feel free to book time with me so we can go through anything in detail."
+      }
+    ];
+
+    const supervisorNotifications = [
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Alex Acadamia completed a new wellbeing check-in.',
+        full: "Your student, Alex Acadamia, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/clock.png',
+        subject: 'Meeting Accepted',
+        preview: 'Adam Courseworkshire has accepted your meeting invite.',
+        full: "Your student, Adam Courseworkshire, has accepted the meeting scheduled for Friday at 10am."
+      },
+      {
+        icon: 'images/JessImage.JPG',
+        subject: 'Overwhelmed with Deadlines',
+        preview: 'Hello Paul, Im really struggling to keep up with my modules...',
+        full: "Hello Paul, I'm really strugling to keep up with my modules and feel completely kind of overwhelmed with coursework deadlines. Would it be possible to arrange a meeting to go over my time management and any strategies you might recommend? I'm desperate for some guidance."
+      },
+      {
+        icon: 'images/UrgAlert.png',
+        subject: 'No Availability Left',
+        preview: 'You have run out of availability. Please add more to your calendar.',
+        full:   "You have no remaining availability slots in your calendar. Please add more availability so students can continue to book meetings with you."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Jessica Studentham completed a new wellbeing check-in.',
+        full: "Your student, Jessica Studentham, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Adam Courseworkshire completed a new wellbeing check-in.',
+        full: "Your student, Adam Courseworkshire, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/JessImage.JPG',
+        subject: 'Need Advice on Dissertation',
+        preview: 'Hi Paul, Ive barely started my dissertation and...',
+        full: "Hi Paul, I've barely started my disertation and I'm anxious I won't finish by the deadline. Could we schedule a one-to-one to talk through mt topic please? I'd be so grateful for your support."
+      },
+      {
+        icon: 'images/alert.png',
+        subject: 'Add Your Availability',
+        preview: 'Its time to add your availability to the calendar.',
+        full:   "It's time to add your availability to the calendar. Please log in and update your available time slots."
+      },
+      {
+        icon: 'images/clock.png',
+        subject: 'Meeting Accepted',
+        preview: 'Jessica Studentham has accepted your meeting invite.',
+        full: "Your student, Jessica Studentham, has accepted the meeting scheduled for Friday at 10am."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Alex Acadamia completed a new wellbeing check-in.',
+        full: "Your student, Alex Acadamia, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Jessica Studentham completed a new wellbeing check-in.',
+        full: "Your student, Jessica Studentham, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/alert.png',
+        subject: 'Add Your Availability',
+        preview: 'Its time to add your availability to the calendar.',
+        full:   "It's time to add your availability to the calendar. Please log in and update your available time slots."
+      },
+      {
+        icon: 'images/AdamIcon.JPG',
+        subject: 'Draft Feedback Request',
+        preview: 'Hello Paul, Ive drafted my essay but...',
+        full: "Hello Paul, I've drafted my essay but I'm not convinced it's at the right academic standard. Would you mindgiving me some feedback on my introduction and overall argument flow Please?"
+      },
+      {
+        icon: 'images/clock.png',
+        subject: 'Meeting Accepted',
+        preview: 'Alex Acadamia has accepted your meeting invite.',
+        full: "Your student, Alex Acadamia, has accepted the meeting scheduled for Friday at 10am."
+      },
+      {
+        icon: 'images/Alex.JPG',
+        subject: 'Module Choice Confirmation',
+        preview: 'Hello Paul, Im planning to take the new AI module...',
+        full: "Hello Paul, I'm planning to take the new AI module next term and would apreciate your advice on how well you think I'd Cope with tyhe stress of it all?. Could we have a quick chat about it?"
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Adam Courseworkshire completed a new wellbeing check-in.',
+        full: "Your student, Adam Courseworkshire, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Jessica Studentham completed a new wellbeing check-in.',
+        full: "Your student, Jessica Studentham, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Alex Acadamia completed a new wellbeing check-in.',
+        full: "Your student, Alex Acadamia, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/clock.png',
+        subject: 'Meeting Accepted',
+        preview: 'Jessica Studentham has accepted your meeting invite.',
+        full: "Your student, Jessica Studentham, has accepted the meeting scheduled for Friday at 10am."
+      },
+      {
+        icon: 'images/AdamIcon.JPG',
+        subject: 'Time Management Check-In',
+        preview: 'Hi Paul, I think I could improve my study routine...',
+        full: "Hi Paul, Ive been thinking like I've been coasting through lectures without a proper routine and my coursework is piling up. Could we meet to discuss some strategies for staying on top of my work? I see you are free at 3 today so I will check my calander and maybe book a meeting."
+      },
+      {
+        icon: 'images/alert.png',
+        subject: 'Add Your Availability',
+        preview: 'Its time to add your availability to the calendar.',
+        full:   "It's time to add your availability to the calendar. Please log in and update your available time slots."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Adam Courseworkshire completed a new wellbeing check-in.',
+        full: "Your student, Adam Courseworkshire, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Alex Acadamia completed a new wellbeing check-in.',
+        full: "Your student, Alex Acadamia, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/JessImage.JPG',
+        subject: 'Anxiety about Exams',
+        preview: 'Hello Paul, Im feeling very anxious about my upcoming exams...',
+        full: "Hello Paul, I'm feeling very anxious aboutthe teree exams I have to do and don't know where to start revising. Do you have any tips, or could we draw up a revision plan together? I really need some reassurance and dont know who else to ask."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Jessica Studentham completed a new wellbeing check-in.',
+        full: "Your student, Jessica Studentham, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Adam Courseworkshire completed a new wellbeing check-in.',
+        full: "Your student, Adam Courseworkshire, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Alex Acadamia completed a new wellbeing check-in.',
+        full: "Your student, Alex Acadamia, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/JessImage.JPG',
+        subject: 'Finding Seminars Challenging',
+        preview: 'Hi Paul, the recent seminars have been really hard to...',
+        full: "Hi Paul, the recent seminars have been really hard to follow, and I'm worried I'm not understanding the whole subject of therm. Could we meet to clarify things and maybe you could point me towards some extra reading?"
+      },
+      {
+        icon: 'images/alert.png',
+        subject: 'Add Your Availability',
+        preview: 'Its time to add your availability to the calendar.',
+        full:   "It's time to add your availability to the calendar. Please log in and update your available time slots."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Jessica Studentham completed a new wellbeing check-in.',
+        full: "Your student, Jessica Studentham, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Adam Courseworkshire completed a new wellbeing check-in.',
+        full: "Your student, Adam Courseworkshire, has just filled in a new wellbeing report."
+      },
+      {
+        icon: 'images/smile.png',
+        subject: 'Wellbeing Form Submitted',
+        preview: 'Alex Acadamia completed a new wellbeing check-in.',
+        full: "Your student, Alex Acadamia, has just filled in a new wellbeing report."
+      }
+    ];
+
+    const role = localStorage.getItem('userRole') || '';
+    const pageTitleEl = document.getElementById('pageTitle');
+    const welcomeTextEl = document.getElementById('welcomeText');
+    const profileImageEl = document.getElementById('profileImage');
+    const container = document.querySelector('.messages-container');
+
+    let items, title, displayName, imageSrc;
+    if (role === 'PersonalSupervisor') {
+      title = 'Notifications from Your Students';
+      displayName = 'Paul Persupen';
+      imageSrc = 'images/PaulImage.JPG';
+      items = supervisorNotifications;
+    } else {
+      title = 'Messages from Your Personal Supervisor';
+      displayName = 'Jessica Studentham';
+      imageSrc = 'images/JessImage.JPG';
+      items = studentMessages;
+    }
+
+    pageTitleEl.textContent = title;
+    welcomeTextEl.textContent = `Hi ${displayName}`;
+    profileImageEl.src = imageSrc;
+
+    items.forEach(msg => {
+      const item = document.createElement('div');
+      item.className = 'message-item';
+      item.onclick = () => item.classList.toggle('expanded');
+      item.innerHTML = `
+        <img class="icon" src="${msg.icon}" alt=""/>
+        <div class="message-content">
+          <div class="subject">Subject: ${msg.subject}</div>
+          <div class="preview">${msg.preview}</div>
+          <div class="full-message">
+            ${msg.fullHtml || `<p>${msg.full}</p>`}
+          </div>
+        </div>`;
+      container.appendChild(item);
+    });
+
+    const exitBtn = document.createElement('button');
+    exitBtn.className = 'exit-button';
+    exitBtn.textContent = 'Exit';
+    exitBtn.onclick = goBackToDashboard;
+    container.appendChild(exitBtn);
+
+    const chatProfile = document.getElementById('chatProfileImg');
+    const chatSelect = document.getElementById('chatUserSelect');
+    const chatNameSpan = document.getElementById('chatUserName');
+
+    if (role === 'PersonalSupervisor') {
+      chatSelect.style.display = 'block';
+      chatNameSpan.style.display = 'none';
+      chatProfile.src = 'images/image.jpg';
+      const pics = {
+        'Alex Acadamia': 'images/Alex.JPG',
+        'Jessica Studentham': 'images/JessImage.JPG',
+        'Adam Courseworkshire': 'images/AdamIcon.JPG'
+      };
+      chatSelect.addEventListener('change', e => {
+        const name = e.target.value;
+        chatNameSpan.textContent = name;
+        chatProfile.src = pics[name] || 'images/image.jpg';
+      });
+    } else {
+      chatSelect.style.display = 'none';
+      chatNameSpan.style.display = 'block';
+      chatNameSpan.textContent = 'Paul Persupen';
+      chatProfile.src = 'images/PaulImage.JPG';
+    }
+
+    document.getElementById('sendChatBtn').addEventListener('click', () => { <!--This code was inspired by this  https://www.w3schools.com/jsref/met_document_getelementbyid.asp as well as this youtube video https://www.youtube.com/watch?v=h4-6JOQX9v4-->
+      alert('Message sent to ' + chatNameSpan.textContent);
+      document.getElementById('chatInput').value = '';
+      document.getElementById('chatSubject').value = '';
+    });
+
+    function toggleLogoutMenu() {
+      document.getElementById('logoutMenu').classList.toggle('hidden');
+    }
+    function logout() {
+      localStorage.removeItem('userRole');
+      window.location.href = 'loginpage.html';
+    }
+    function goBackToDashboard() {
+      window.location.href = 'dashboard.html';
+    }
+    function respond(btn, accepted) {
+      const fm = btn.closest('.full-message');
+      fm.querySelector('.response-buttons').style.display = 'none';
+      const res = fm.querySelector('.response-result');
+      res.textContent = accepted ? 'Meeting Booked' : 'Meeting Rejected';
+      res.style.fontWeight = 'bold';
+      res.style.color = accepted ? 'green' : 'red';
+    }
+  </script>
+</body>
+</html>

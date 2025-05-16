@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wellbeing Reports</title>
+  <link rel="stylesheet" href="css/reports.css"/>
+</head>
+<body>
+  <div class="top-bar">
+
+    <div class="back-container" onclick="goBackToDashboard()">
+      <img src="images/Home.png" alt="Home" class="home-icon"/><!---Code stolen from BookMeeting.HTML.-->
+    </div>
+    <div class="user-menu-container">
+      <div class="profile-pic" onclick="toggleLogoutMenu()">
+        <img id="profileImage" src="" alt="Profile"/>
+      </div>
+      <div id="logoutMenu" class="logout-menu hidden">
+        <p>Log out?</p>
+        <button onclick="logout()">Click here</button>
+      </div>
+    </div>
+    <h2 id="welcomeText">Hi</h2>
+  </div>
+
+  <div class="reports-container">
+    <div class="reports-header">
+      <h2>Student Wellbeing Reports</h2>
+      <label for="studentFilter">Filter by student:</label>
+      <select id="studentFilter">
+        <option value="All">All Students</option>
+      </select>
+    </div>
+
+
+    <section id="flaggedSection">
+      <h3>Flagged for Review (total &lt; 15)</h3>
+      <div id="flaggedList" class="reports-list"></div>
+    </section>
+
+    <section id="allReportsSection">
+      <h3>All Reports</h3>
+      <div id="allList" class="reports-list"></div>
+    </section>
+  </div>
+
+  <script>
+    function goBackToDashboard() {
+      window.location.href = 'dashboard.html';
+    }
+
+    const role = localStorage.getItem("userRole"),
+          welcomeText = document.getElementById("welcomeText"),
+          profileImage = document.getElementById("profileImage");
+    const names = {
+      Student: "Jessica Studentham",
+      PersonalSupervisor: "Paul Persupen"
+
+    };
+    if (role in names) {
+      welcomeText.textContent = `Hi ${names[role]}`;
+      profileImage.src = role === "Student"
+        ? "images/JessImage.JPG"
+        : "images/PaulImage.JPG";
+    } else {
+      welcomeText.textContent = "Hi there";
+    }
+
+    function toggleLogoutMenu() {
+      document.getElementById("logoutMenu").classList.toggle("hidden");
+    }
+
+    function logout() {
+      localStorage.removeItem("userRole");
+      window.location.href = "LoginPage.html";
+    }
+
+    window.addEventListener("click", e => {
+      if (!document.querySelector(".user-menu-container").contains(e.target)) {
+        document.getElementById("logoutMenu").classList.add("hidden");
+      }
+    });
+//This sets the student reports for the PS to see
+    const reportsData = [
+      {
+        "student": "Jessica Studentham",
+        "profilePic": "images/JessImage.JPG",
+        "date": "11/03/2024",
+        "q1": 3,
+        "q2": 4,
+
+        "q3": 2,
+        "q4": 3,
+        "desc": "I've been finding it hard to keep up with deadlines and I’m feeling pretty overwhelmed.",
+        "extra": "Could really use a bit more help next week if possible."
+      },
+      {
+        "student": "Jessica Studentham",
+        "profilePic": "images/JessImage.JPG",
+        "date": "09/02/2024",
+        "q1": 7,
+        "q2": 6,
+        "q3": 5,
+        "q4": 7,
+        "desc": "I’m managing okay, but some of the modules are really tough right now.",
+        "extra": ""
+      },
+      {
+        "student": "Alex Acadamia",
+        "profilePic": "images/Alex.JPG",
+        "date": "15/07/2024",
+        "q1": 8,
+        "q2": 8,
+        "q3": 7,
+        "q4": 9,
+        "desc": "I’m feeling confident and on top of things.",
+        "extra": "Can’t wait to dive into the group project next week!"
+      },
+      {
+        "student": "Jessica Studentham",
+        "profilePic": "images/JessImage.JPG",
+        "date": "20/12/2023",
+        "q1": 2,
+        "q2": 3,
+        "q3": 2,
+        "q4": 3,
+        "desc": "I missed the submission and felt too anxious to reach out for help.",
+        "extra": "Could we have a quick check-in? I’m too nervous to ask in class."
+      },
+      {
+        "student": "Jessica Studentham",
+        "profilePic": "images/JessImage.JPG",
+        "date": "26/08/2024",
+        "q1": 6,
+        "q2": 5,
+        "q3": 6,
+        "q4": 5,
+        "desc": "I feel like I’m improving a bit; I asked a classmate for clarification today.",
+        "extra": "Thanks for noticing me asking others for help."
+      },
+      {
+        "student": "Jessica Studentham",
+        "profilePic": "images/JessImage.JPG",
+        "date": "27/01/2025",
+        "q1": 4,
+        "q2": 3,
+
+        "q3": 4,
+        "q4": 3,
+        "desc": "I still feel awkward speaking up in group discussions and tend to stay quiet.",
+        "extra": "I’d appreciate some encouragement to join in class discussions."
+      },
+      {
+        "student": "Jessica Studentham",
+        "profilePic": "images/JessImage.JPG",
+        "date": "05/02/2025",
+        "q1": 5,
+        "q2": 5,
+        "q3": 5,
+        "q4": 4,
+        "desc": "I’m making steady progress, though I still feel hesitant to ask for help.",
+        "extra": "I’d like to schedule a one-on-one session if that’s alright."
+      },
+      {
+        "student": "Alex Acadamia",
+        "profilePic": "images/Alex.JPG",
+        "date": "21/01/2025",
+        "q1": 9,
+        "q2": 9,
+        "q3": 8,
+        "q4": 9,
+        "desc": "I’ve been consistently performing well and exploring advanced topics.",
+        "extra": "I’d love to mentor others if given the chance."
+      },
+      {
+        "student": "Alex Acadamia",
+        "profilePic": "images/Alex.JPG",
+        "date": "03/02/2025",
+        "q1": 8,
+        "q2": 9,
+        "q3": 9,
+        "q4": 8,
+        "desc": "I have a solid grasp on my modules and got strong marks on the tests.",
+        "extra": "I’m interested in starting an independent research project."
+      },
+      {
+        "student": "Alex Acadamia",
+        "profilePic": "images/Alex.JPG",
+        "date": "23/02/2024",
+        "q1": 10,
+        "q2": 10,
+        "q3": 9,
+        "q4": 10,
+        "desc": "I got outstanding results on my latest assignment."
+        ,
+        "extra": "I’d like to join some enrichment workshops soon."
+      },
+      {
+        "student": "Alex Acadamia",
+        "profilePic": "images/Alex.JPG",
+        "date": "23/11/2024",
+        "q1": 8,
+        "q2": 8,
+        "q3": 8,
+        "q4": 8,
+        "desc": "I’m keeping up high standards and enjoying leading team activities.",
+        "extra": ""
+      },
+      {
+        "student": "Adam Courseworkshire",
+        "profilePic": "images/AdamIcon.jpg",
+        "date": "11/12/2023",
+        "q1": 6,
+        "q2": 5,
+        "q3": 6,
+        "q4": 5,
+        "desc": "I’ve been average lately and feel like I’m just coasting.",
+        "extra": "I should set clearer weekly goals."
+      },
+      {
+        "student": "Adam Courseworkshire",
+        "profilePic": "images/AdamIcon.jpg",
+        "date": "04/01/2024",
+        "q1": 7,
+        "q2": 7,
+        "q3": 7,
+        "q4": 6,
+        "desc": "I understand the material well but my consistency has been off.",
+        "extra": "I need to monitor my own progress more closely."
+      },
+      {
+        "student": "Adam Courseworkshire",
+        "profilePic": "images/AdamIcon.jpg",
+        "date": "01/02/2025",
+        "q1": 5,
+        "q2": 6,
+        "q3": 5,
+        "q4": 6,
+        "desc": "I’ve been engaged sometimes but my progress has been up and down.",
+        "extra": "Regular check-ins would help me stay on track."
+      },
+      {
+        "student": "Adam Courseworkshire",
+        "profilePic": "images/AdamIcon.jpg",
+
+        "date": "09/11/2024",
+        "q1": 4,
+        "q2": 5,
+        "q3": 4,
+        "q4": 5,
+        "desc": "I feel like I’m underachieving compared to what I know I can do.",
+        "extra": "Can we talk about strategies to keep me accountable?"
+      }
+    ];
+
+    function totalScore(r) { return r.q1 + r.q2 + r.q3 + r.q4; }
+    function moodIcon(score) {
+      if (score < 15) return "images/frown.png";
+      if (score < 27) return "images/midface.png";
+      return "images/smile.png";
+    }
+
+    const flaggedList = document.getElementById("flaggedList"),
+          allList     = document.getElementById("allList"),
+          filterEl    = document.getElementById("studentFilter");
+
+    Array.from(new Set(reportsData.map(r => r.student)))
+         .forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name; opt.textContent = name;
+
+      filterEl.appendChild(opt);
+    });
+
+    function renderLists() {
+      const sel = filterEl.value;
+      flaggedList.innerHTML = "";
+      allList.innerHTML     = "";
+
+      const sorted = [...reportsData].sort((a, b) => b.date.localeCompare(a.date));
+
+      sorted.forEach(r => {
+        if (sel !== "All" && r.student !== sel) return;
+        const score = totalScore(r), icon = moodIcon(score);
+
+        if (score < 15) {
+//Sets the ones that have a score beneath 15 at the top
+          const card = document.createElement("div");
+          card.className = "report-card";
+          card.innerHTML = `
+            <div class="card-header">
+              <img class="report-profile" src="${r.profilePic}" alt="Profile"/>
+              <p class="report-meta">
+                <strong>${r.student}</strong> — ${r.date} — total: ${score}
+              </p>
+              <img class="report-icon" src="${icon}" alt="Mood"/>
+            </div>
+            <ul class="scores">
+              <li>Progress: ${r.q1}</li>
+              <li>Emotion: ${r.q2}</li>
+              <li>Difficulty: ${r.q3}</li>
+              <li>Coursework: ${r.q4}</li>
+            </ul>
+            <p class="desc">${r.desc}</p>
+            ${r.extra ? `<p class="extra"><em>${r.extra}</em></p>` : ""}
+            <div class="flagged-actions">
+              <button class="book-meeting-flagged">Book Meeting</button>
+              <button class="addressed-btn">Addressed?</button>
+            </div>
+          `;
+          card.querySelector(".book-meeting-flagged")
+              .onclick = () => window.location.href = "BookMeeting.html";
+          card.querySelector(".addressed-btn")
+              .onclick = () => card.remove();
+          flaggedList.appendChild(card);
+        }
+//Sets all of the reports underneath in teh dropdown.
+        const clone = document.createElement("div");
+        clone.className = "report-card";
+        clone.innerHTML = `
+
+          <div class="card-header">
+            <img class="report-profile" src="${r.profilePic}" alt="Profile"/>
+            <p class="report-meta">
+              <strong>${r.student}</strong> — ${r.date} — total: ${score}
+            </p>
+            <img class="report-icon" src="${icon}" alt="Mood"/>
+          </div>
+          <ul class="scores">
+            <li>Progress: ${r.q1}</li>
+            <li>Emotion: ${r.q2}</li>
+            <li>Difficulty: ${r.q3}</li>
+            <li>Coursework: ${r.q4}</li>
+          </ul>
+          <p class="desc">${r.desc}</p>
+          ${r.extra ? `<p class="extra"><em>${r.extra}</em></p>` : ""}
+          <div class="all-actions">
+            <button class="book-meeting-all">Book Meeting</button>
+          </div>
+        `;
+        clone.querySelector(".book-meeting-all")
+             .onclick = () => window.location.href = "BookMeeting.html";
+        allList.appendChild(clone);
+      });
+    }
+
+    filterEl.addEventListener("change", renderLists);
+    renderLists();
+  </script>
+</body>
+</html>

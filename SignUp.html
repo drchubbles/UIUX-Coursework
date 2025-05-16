@@ -1,0 +1,109 @@
+<!-- This code was inspired by w3Schools, Particularly https://www.w3schools.com/html/default.asp, Jave script was inspired by https://www.w3schools.com/html/html_scripts.asp and https://www.w3schools.com/js/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="image-circle">
+      <img id="profilePreview" src="images/image.jpg" alt="Profile"/>
+    </div>
+  <!--This code is essential for getting the First and lst name - Not currentky hooked up to a database buyt could be if were being made as a ful application -->
+    <div class="signup-box">
+      <div class="row">
+        <input type="text" id="firstName" placeholder="First name" required />
+        <input type="text" id="lastName" placeholder="Last name" required />
+      </div>
+  <!--This code is gets teh dat eof birth and the users opfp -->
+      <div class="row">
+        <input type="date" id="dob" placeholder="D.o.b" required />
+        <div class="file-upload">
+          <label for="pfpUpload">PFP upload</label>
+          <input type="file" id="pfpUpload" accept="image/*" />
+        </div>
+      </div>
+  <!--This code is gets the users email and sets the requirement it must conatian an @ and a . -->
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+        required
+      />
+  <!--This code is gets the password again jntot hooked up but could be - Type is set to password to blank out tghe text -->
+      <div class="row">
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+      <div class="row">
+        <input
+          type="password"
+          id="passwordConfirm"
+          placeholder="Password confirmation"
+          required
+        />
+      </div>
+  <!--This code puts the sign upbutton at the bottom as wella s giving teh use teh ability to sign out-->
+      <div class="actions">
+        <button class="btn cancel" onclick="location.href='LoginPage.html'">cancel</button>
+        <button class="btn signup" onclick="signup()">sign up</button>
+      </div>
+
+      <p id="message" class="result"></p>
+    </div>
+  </div>
+
+  <script>
+  //This code is responsible for making the pfp appear in the circle
+
+    document.getElementById("pfpUpload").addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById("profilePreview").src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+//Thos cpde signs the user in after validating that the information that they have entered is correct.
+    function signup() {
+      const msg = document.getElementById("message");//This code was inspired by this  https://www.w3schools.com/jsref/met_document_getelementbyid.asp as well as this youtube video https://www.youtube.com/watch?v=h4-6JOQX9v4
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const dob = document.getElementById("dob").value;
+      const email = document.getElementById("email").value.trim();
+      const pw = document.getElementById("password").value;
+      const pwc = document.getElementById("passwordConfirm").value;
+//If teh feilds are empty, Reject
+      if (!firstName || !lastName || !dob || !email || !pw || !pwc) {
+        msg.textContent = "Please fill in all required fields.";
+        msg.style.color = "red";
+        return;
+      }
+
+      //If the email is invalid, Reject 
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        msg.textContent = "Please enter a valid email address.";
+        msg.style.color = "red";
+        return;
+      }
+//If the passwords dont match, Reject
+      if (pw !== pwc) {
+        msg.textContent = "Passwords do not match.";
+        msg.style.color = "red";
+        return;
+      }
+//If Everything is ok, sign the user in successfully.
+      msg.textContent = "Signed up successfully!";
+      msg.style.color = "green";
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

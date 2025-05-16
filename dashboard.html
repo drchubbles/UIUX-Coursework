@@ -1,0 +1,136 @@
+<!-- This code was inspired by w3Schools, Particularly https://www.w3schools.com/html/default.asp, Jave script was inspired by https://www.w3schools.com/html/html_scripts.asp and https://www.w3schools.com/js/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <div class="user-menu-container">
+      <div class="profile-pic" onclick="toggleLogoutMenu()">
+        <img
+          id="profileImage"
+          src="images/image.jpg"
+          alt="Profile"
+          onerror="this.onerror=null; this.src='images/image.jpg';"
+        />
+      </div>
+      <div id="logoutMenu" class="logout-menu hidden">
+        <p>Log out?</p>
+        <button onclick="logout()">Click here</button>
+      </div>
+    </div>
+    <h2 id="welcomeText">Hi</h2>
+  </div>
+<!-- Creates the different panels-->
+  <div id="dashboard" class="dashboard-container student-layout">
+    <div class="panel">
+      <h3 id="panel1-title">Report how you are feeling</h3>
+      <img src="images/smileicon.png" alt="Feeling Icon"/>
+      <button id="panel1-button">Click here to start</button>
+    </div>
+
+    <div class="panel">
+      <h3 id="panel2-title">Messages</h3>
+      <img src="images/envelope.png" alt="Envelope Icon"/>
+      <button id="panel2-button">View</button>
+    </div>
+
+    <div class="panel">
+      <h3 id="panel3-title">Book Meeting</h3>
+      <img src="images/clock.png" alt="Clock Icon"/>
+      <button id="panel3-button">Book Now</button>
+    </div>
+
+    <div id="panel4" class="panel" style="display: none;">
+      <h3 id="panel4-title">Manage Calendar</h3>
+      <img src="images/cal.png" alt="Calendar Icon"/>
+      <button id="panel4-button">Manage</button>
+    </div>
+  </div>
+
+  <script>
+    const role = localStorage.getItem("userRole");
+    const welcomeText = document.getElementById("welcomeText");
+    const profileImage = document.getElementById("profileImage");
+    const dashboard = document.getElementById("dashboard");
+
+    let displayName = "";
+
+    if (role === "Student") {
+      displayName = "Jessica Studentham";
+      profileImage.src = "images/JessImage.JPG";
+      dashboard.classList.add("student-layout");
+
+      document.getElementById("panel1-button").onclick = () => {
+        location.href = "WBR.html";
+      };
+      document.getElementById("panel2-button").onclick = () => {
+        location.href = "messages.html";
+      };
+      document.getElementById("panel3-button").onclick = () => {
+        location.href = "BookMeeting.html";
+      };
+
+    } else if (role === "PersonalSupervisor") {
+      displayName = "Paul Persupen";
+      profileImage.src = "Images/PaulImage.JPG";
+      dashboard.classList.remove("student-layout");
+      dashboard.classList.add("supervisor-layout");
+//Sets what panels teh  personsla supervisor can see
+      document.getElementById("panel1-title").textContent = "Track Student Wellbeing";
+      document.getElementById("panel1-button").textContent = "View Reports";
+      document.getElementById("panel1-button").onclick = () => {
+        location.href = "WBRPS.html";
+      };
+
+      document.getElementById("panel2-button").onclick = () => {
+        location.href = "messages.html";
+      };
+      document.getElementById("panel3-button").onclick = () => {
+        location.href = "BookMeeting.html";
+      };
+
+      document.getElementById("panel4-title").textContent = "Manage Calendar";
+      document.getElementById("panel4-button").onclick = () => {
+        location.href = "manageCalendar.html";
+      };
+      document.getElementById("panel4").style.display = "flex";
+
+    } else {
+      displayName = "there, the Sign Up function does not fully work for this demonstation, please log out and login as Supervisor or Student.";
+      profileImage.src = "";
+//Checks User Permissions incase they get into the page, mainly here for teh sign up function.
+      document.getElementById("panel1-button").onclick = () => {
+        alert("Only students can access the wellbeing report.");
+      };
+      document.getElementById("panel2-button").onclick = () => {
+        alert("Access denied.");
+      };
+      document.getElementById("panel3-button").onclick = () => {
+        alert("Access denied.");
+      };
+    }
+
+    welcomeText.textContent = `Hi ${displayName}`;
+
+    function toggleLogoutMenu() {
+      document.getElementById("logoutMenu").classList.toggle("hidden");
+    }
+
+    function logout() {
+      localStorage.removeItem("userRole");
+      window.location.href = "LoginPage.html";
+    }
+
+    window.addEventListener("click", e => {
+      if (!document.querySelector(".user-menu-container").contains(e.target)) {
+        document.getElementById("logoutMenu").classList.add("hidden");<!--This code was inspired by this  https://www.w3schools.com/jsref/met_document_getelementbyid.asp as well as this youtube video https://www.youtube.com/watch?v=h4-6JOQX9v4-->
+      }
+    });
+  </script>
+</body>
+</html>

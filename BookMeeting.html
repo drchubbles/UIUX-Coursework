@@ -1,0 +1,125 @@
+<!-- This code was inspired by w3Schools, Particularly https://www.w3schools.com/html/default.asp, Jave script was inspired by https://www.w3schools.com/html/html_scripts.asp and https://www.w3schools.com/js/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Meeting</title>
+  <link rel="stylesheet" href="css/BookMeeting.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <div class="back-container" onclick="goBackToDashboard()">
+      <img src="images/Home.png" alt="Home" class="home-icon"/>
+    </div>
+    <div class="user-menu-container">
+      <div class="profile-pic" onclick="toggleLogoutMenu()">
+        <img id="profilePic" src="" alt="Profile" onerror="this.onerror=null; this.src='images/image.jpg';" />
+      </div>
+      <div id="logoutMenu" class="logout-menu hidden">
+        <p>Log out?</p>
+        <button onclick="logout()">Click here</button>
+      </div>
+    </div>
+    <h2 id="welcomeName">Hi there</h2>
+  </div>
+<!--Sets dropdowns for the PS to selcet the person that they want to message-->
+  <div class="form-container">
+    <form id="meetingForm">
+      <div id="student-select-container" style="display: none; margin-bottom: 1em;">
+        <label for="student-select">Please select a student</label>
+        <select id="student-select">
+          <option value="" disabled selected>Select a student</option>
+          <option value="Alex Acadamia">Alex Acadamia</option>
+          <option value="Jessica Studentham">Jessica Studentham</option>
+          <option value="Adam Courseworkshire">Adam Courseworkshire</option>
+        </select>
+      </div>
+<!--Sets time the supervisor is free for a meeting ina dropdown-->
+      <label id="time-label" for="time-select"></label>
+      <select id="time-select" required>
+        <option value="" disabled selected>Select a time</option>
+        <option>Monday 10:00 AM</option>
+        <option>Tuesday 2:00 PM</option>
+        <option>Wednesday 1:00 PM</option>
+        <option>Thursday 3:30 PM</option>
+        <option>Friday 11:00 AM</option>
+      </select>
+<!--Creates textbox for user to input text-->
+      <label for="meeting-reason">Please enter what the meeting is about</label>
+      <textarea
+        id="meeting-reason"
+        rows="5"
+        required
+      ></textarea>
+<!--Creates Cancel Buttont-->
+      <div class="button-row">
+        <button type="button" class="cancel" onclick="cancelBooking()">Cancel</button>
+        <button type="submit" class="send">Send Invite</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+
+    function goBackToDashboard() {
+      window.location.href = "dashboard.html";
+    }
+    // sets teh variables for the user of teh dashbord to set icons and stuff
+    const role = localStorage.getItem("userRole");
+    const welcomeName = document.getElementById("welcomeName");
+    const profilePic = document.getElementById("profilePic");
+    const studentSelect = document.getElementById("student-select-container");
+    const timeLabel = document.getElementById("time-label");
+    const reasonField = document.getElementById("meeting-reason");
+//Sets prompt texst for boxes
+    const studentReasonPlaceholder =
+      "For example: I'd like help understanding feedback on my last assignment.";
+    const supervisorReasonPlaceholder =
+      "For example: I would like to discuss your most recent wellbeing report";
+//Controls messahes iser cam see
+    if (role === "Student") {
+      welcomeName.textContent = "Hi Jessica Studentham";
+      profilePic.src = "images/JessImage.JPG";
+      timeLabel.textContent = "Please select a time your personal supervisor is free";
+      reasonField.placeholder = studentReasonPlaceholder;
+    } else if (role === "PersonalSupervisor") {
+      welcomeName.textContent = "Hi Paul Persupen";
+      profilePic.src = "images/PaulImage.JPG";
+      studentSelect.style.display = "block";
+      timeLabel.textContent = "Please select a time to book the meeting";
+      reasonField.placeholder = supervisorReasonPlaceholder;
+    } else {
+      welcomeName.textContent = "Hi there";
+      profilePic.src = "";
+      timeLabel.textContent = "Please select a time";
+      reasonField.placeholder = studentReasonPlaceholder;
+    }
+
+    document.getElementById("meetingForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Your meeting invite has been sent!");
+      window.location.href = "dashboard.html";
+    });
+
+    function cancelBooking() {
+      window.location.href = "dashboard.html";
+    }
+
+    function toggleLogoutMenu() {
+      document.getElementById("logoutMenu").classList.toggle("hidden");
+    }
+
+    function logout() {
+      localStorage.removeItem("userRole");
+      window.location.href = "LoginPage.html";
+    }
+
+    window.addEventListener("click", function(e) {
+      if (!document.querySelector(".user-menu-container").contains(e.target)) {
+        document.getElementById("logoutMenu").classList.add("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

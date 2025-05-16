@@ -1,0 +1,239 @@
+/* Most of the Css I have created for this project has been inspired by https://www.w3schools.com/css/default.asp as well as https://stackoverflow.com/tags/css/info*/
+body {
+  background-color: #f0e6b4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0e6b4;
+  gap: 15px;
+}
+.back-container {
+  cursor: pointer;
+}
+.home-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+.user-menu-container {
+  position: relative;
+}
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border: 4px solid black;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.logout-menu {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 160px;
+  background-color: #f0e6b4;
+  border: 4px solid black;
+  border-radius: 20px;
+  padding: 15px;
+  text-align: center;
+  z-index: 10;
+}
+.logout-menu .send-message {
+  font-weight: bold;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}
+.logout-menu p {
+  font-weight: bold;
+  margin: 10px 0 8px;
+}
+.logout-menu button {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.logout-menu button:hover {
+  background-color: #333;
+}
+.hidden {
+  display: none;
+}
+#welcomeText {
+  font-size: 20px;
+  font-weight: bold;
+}
+.messages-container {
+  max-width: 700px;
+  margin: 30px auto;
+  background-color: white;
+  border: 4px solid black;
+  border-radius: 30px;
+  padding: 60px 30px 30px;
+}
+.messages-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.exit-button {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.chat-box {
+  position: absolute;
+  width: 300px;
+  background-color: #f5eac2;
+  border: 3px solid black;
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+.logout-menu .chat-box {
+  top: 0;
+  left: 100%;
+  margin-left: 10px;
+}
+.chat-box.hidden {
+  display: none;
+}
+.chat-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.chat-profile-img {
+  width: 40px;
+  height: 40px;
+  border: 3px solid black;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+.chat-user-select {
+  flex: 1;
+  border: 3px solid black;
+  border-radius: 20px;
+  padding: 5px 10px;
+  background-color: #f5eac2;
+  font-weight: bold;
+  cursor: pointer;
+}
+.chat-user-name {
+  flex: 1;
+  font-weight: bold;
+}
+.chat-body {
+  display: flex;
+  flex-direction: column;
+}
+#chatSubject {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+#chatInput {
+  resize: none;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 10px;
+  height: 80px;
+}
+#sendChatBtn {
+  align-self: flex-end;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.message-item {
+  display: flex;
+  align-items: flex-start;
+  background-color: #f5eac2;
+  border: 3px solid black;
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.message-item:hover {
+  background-color: #e6d89c;
+}
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid black;
+  margin-right: 15px;
+  object-fit: cover;
+}
+.message-content {
+  flex: 1;
+}
+.subject {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.preview {
+  color: #333;
+}
+.full-message {
+  display: none;
+  margin-top: 10px;
+  color: #000;
+  font-style: italic;
+}
+.message-item.expanded .full-message {
+  display: block;
+}
+.message-item.expanded .preview {
+  display: none;
+}
+.response-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+.response-buttons button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.response-buttons button:hover {
+  background-color: #333;
+}
+.response-result {
+  font-size: 16px;
+  margin-top: 10px;
+}

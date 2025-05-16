@@ -1,0 +1,48 @@
+<!-- This code was inspired by w3Schools, Particularly https://www.w3schools.com/html/default.asp, Jave script was inspired by https://www.w3schools.com/html/html_scripts.asp and https://www.w3schools.com/js/ -->
+
+<!-- A video I used as Insperation was https://www.google.com/search?sca_esv=70b5c3d27dd6e643&q=HTML+login+Page&udm=7&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpA-dk4wpBWOGsoR7DG5zJBkzPWUS0OtApxR2914vrjk5gux0mYvyWoCy003vfIOild_a6tWP0OjRIKyaSx7ya8LxH4oJ1b-g0fqmFrdtKrH7it0hl8MV62HNE3uC2Y6DdfBm3oVUlL4YSovvD_xwiClmrFUn1UArgXTAD_rsKAwwEiKv0WBk4TLbyHKAy-ZxgtBQZ1w&sa=X&ved=2ahUKEwjg2ZfS9qWNAxXdW0EAHdg6Ec0QtKgLegQIExAB&biw=1396&bih=663&dpr=1.38#fpstate=ive&vld=cid:7a95a6d5,vid:bVl5_UdcAy0,st:0-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- This code was inspired by w3Schools, Particularly https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro -->
+  <title>Login Page</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<!--Code for login Box-->
+<body>
+  <div class="container">
+    <div class="image-circle">
+      <img src="images/image.jpg" alt="ProfilePicture" />
+    </div>
+    <div class="login-box">
+      <h2>Login to the Hive</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+      <p id="result" class="result"></p>
+      <p class="message">
+        no login? please sign up
+        <button onclick="location.href='SignUp.html'">here!</button>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    //This code is what signs the user in using the preset details.
+    function login() {
+      const username = document.getElementById("username").value.trim();<!--This code was inspired by this  https://www.w3schools.com/jsref/met_document_getelementbyid.asp as well as this youtube video https://www.youtube.com/watch?v=h4-6JOQX9v4-->
+      const allowedUsers = ["Student", "PersonalSupervisor"];
+      const result = document.getElementById("result");
+
+      if (allowedUsers.includes(username)) {
+        localStorage.setItem("userRole", username);
+        window.location.href = "dashboard.html";
+      } else {
+        result.textContent = "Invalid username.";
+        result.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
