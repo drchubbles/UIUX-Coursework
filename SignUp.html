@@ -15,12 +15,12 @@
   <!--This code is essential for getting the First and lst name - Not currentky hooked up to a database buyt could be if were being made as a ful application -->
     <div class="signup-box">
       <div class="row">
-        <input type="text" id="firstName" placeholder="First name" required />
-        <input type="text" id="lastName" placeholder="Last name" required />
+        <input type="text" id="firstName" placeholder="First name *" required />
+        <input type="text" id="lastName" placeholder="Last name *" required />
       </div>
   <!--This code is gets teh dat eof birth and the users opfp -->
       <div class="row">
-        <input type="date" id="dob" placeholder="D.o.b" required />
+        <input type="date" id="dob" placeholder="D.o.b *" required />
         <div class="file-upload">
           <label for="pfpUpload">PFP upload</label>
           <input type="file" id="pfpUpload" accept="image/*" />
@@ -30,19 +30,19 @@
       <input
         type="email"
         id="email"
-        placeholder="Email"
+        placeholder="Email *"
         pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
         required
       />
   <!--This code is gets the password again jntot hooked up but could be - Type is set to password to blank out tghe text -->
       <div class="row">
-        <input type="password" id="password" placeholder="Password" required />
+        <input type="password" id="password" placeholder="Password *" required />
       </div>
       <div class="row">
         <input
           type="password"
           id="passwordConfirm"
-          placeholder="Password confirmation"
+          placeholder="Password confirmation *"
           required
         />
       </div>
