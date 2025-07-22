@@ -9,7 +9,7 @@
   <title>Login Page</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<!--Code for login Box-->
+<!-- This code sets up the login box-->
 <body>
   <div class="container">
     <div class="image-circle">
@@ -29,7 +29,7 @@
   </div>
 
   <script>
-    //This code is what signs the user in using the preset details.
+    //This code is what signs the user using teh sign in details I have coded in, This could be replaced with a database in order to allow for the user to create and make a profile.
     function login() {
       const username = document.getElementById("username").value.trim();<!--This code was inspired by this  https://www.w3schools.com/jsref/met_document_getelementbyid.asp as well as this youtube video https://www.youtube.com/watch?v=h4-6JOQX9v4-->
       const allowedUsers = ["Student", "PersonalSupervisor"];
